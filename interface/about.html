@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos - Défauts Électriques</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="home">
+<header>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}">Accueil</a></li>
+      <li><a href="{{ url_for('visualisation') }}">Visualisation</a></li>
+      <li><a href="{{ url_for('prediction') }}">Prédiction</a></li>
+      <li><a href="{{ url_for('about') }}" class="active">À propos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="hero-section">
+  <div class="text-content" style="max-width:600px;">
+    <h1>À propos</h1>
+    <p style="color:#ccc; font-size:1.1rem; line-height:1.6;">
+      Projet réalisé par <strong>BROUKI Aya</strong>, étudiante en ingénierie Big Data et Intelligence Artificielle.
+    </p>
+    <p style="color:#ccc; font-size:1.1rem; line-height:1.6;">
+      Contact : <a href="mailto:broukiaya@gmail.com" style="color:#00bfff;">broukiaya@gmail.com</a> |
+      <a href="https://www.linkedin.com/in/aya-brouki-783709294" target="_blank" rel="noopener" style="color:#00bfff;">LinkedIn</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

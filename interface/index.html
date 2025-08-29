@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Détection Défauts Électriques</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="home">
+  <header>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('index') }}" class="active">Accueil</a></li>
+        <li><a href="{{ url_for('visualisation') }}">Visualisation</a></li>
+        <li><a href="{{ url_for('prediction') }}">Prédiction</a></li>
+        <li><a href="{{ url_for('about') }}">À propos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="hero-section">
+    <div class="text-content">
+      <h1>Interface Web <br>Pour la Détection des Défauts Électriques</h1>
+      <p>Ce projet permet d’identifier, classifier et prédire les défauts électriques grâce à des algorithmes de Machine Learning.</p>
+    </div>
+    <div class="image-collage">
+      <img src="{{ url_for('static', filename='assets/f1.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f2.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f3.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f4.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f5.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f6.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f7.jpeg') }}" alt="">
+      <img src="{{ url_for('static', filename='assets/f8.jpg') }}" alt="">
+    </div>
+  </div>
+</body>
+</html>

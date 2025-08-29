@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visualisation Défauts Électriques</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="home">
+<header>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}">Accueil</a></li>
+      <li><a href="{{ url_for('visualisation') }}" class="active">Visualisation</a></li>
+      <li><a href="{{ url_for('prediction') }}">Prédiction</a></li>
+      <li><a href="{{ url_for('about') }}">À propos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="hero-section">
+  <div class="text-content" style="max-width: 600px;">
+    <h1>📊 Visualisation des Défauts Électriques</h1>
+    <p>Vous pouvez visualiser les résultats interactifs ci-dessous :</p>
+    <div style="margin-top:40px; width:100%; height:700px;">
+      <iframe src="http://localhost:8501" width="100%" height="100%" style="border:none; border-radius:12px;"></iframe>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prédiction Défauts Électriques ⚡</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body.home {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(ellipse at center, #000c2e 0%, #000010 100%);
+      color: white;
+    }
+
+    .hero-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .text-content { max-width: 600px; }
+
+    .text-content h1 {
+      font-size: 2.8rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .text-content p { font-size: 1.2rem; color: #ccc; }
+
+    .input-row { display: flex; gap: 15px; margin-bottom: 15px; }
+    .input-group { flex: 1; display: flex; flex-direction: column; }
+    .input-group label { color: #00bfff; font-weight: 600; margin-bottom: 5px; text-align: left; }
+    .input-group input { padding: 8px; border-radius: 8px; border: none; font-size: 1rem; }
+
+    button {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 15px;
+      transition: background-color 0.3s;
+    }
+    #predict-btn { background-color: #00bfff; color: white; }
+    #predict-btn:hover { background-color: #009acd; }
+    #classify-btn { background-color: #008b8b; color: white; }
+    #classify-btn:hover { background-color: #006666; }
+
+    #defectPredictionResult { margin-top: 30px; color: #ccc; font-weight: 600; }
+
+    /* Barre de navigation */
+    header {
+      width: 100%;
+      padding: 20px 40px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+    .nav-links { list-style: none; display: flex; gap: 30px; }
+    .nav-links li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+    .nav-links li a:hover { color: #00bfff; }
+  </style>
+</head>
+<body class="home">
+
+<header>
+  <ul class="nav-links">
+    <li><a href="{{ url_for('index') }}">Accueil</a></li>
+    <li><a href="{{ url_for('visualisation') }}">Visualisation</a></li>
+    <li><a href="{{ url_for('prediction') }}" class="active">Prédiction</a></li>
+    <li><a href="{{ url_for('about') }}">À propos</a></li>
+  </ul>
+</header>
+
+<div class="hero-section">
+  <div class="text-content">
+    <h1>Prédiction des Défauts Électriques ⚡</h1>
+
+    <!-- Courants -->
+    <div class="input-row">
+      <div class="input-group">
+        <label for="IA">IA :</label>
+        <input type="number" id="IA" step="any" />
+      </div>
+      <div class="input-group">
+        <label for="IB">IB :</label>
+        <input type="number" id="IB" step="any" />
+      </div>
+      <div class="input-group">
+        <label for="IC">IC :</label>
+        <input type="number" id="IC" step="any" />
+      </div>
+    </div>
+
+    <!-- Tensions -->
+    <div class="input-row">
+      <div class="input-group">
+        <label for="VA">VA :</label>
+        <input type="number" id="VA" step="any" />
+      </div>
+      <div class="input-group">
+        <label for="VB">VB :</label>
+        <input type="number" id="VB" step="any" />
+      </div>
+      <div class="input-group">
+        <label for="VC">VC :</label>
+        <input type="number" id="VC" step="any" />
+      </div>
+    </div>
+
+    <button id="predict-btn" onclick="predictDefect()">Prédire défaut</button>
+    <button id="classify-btn" onclick="classifyDefect()">Classifier type défaut</button>
+
+    <p id="defectPredictionResult"></p>
+  </div>
+</div>
+
+<script>
+  function getInputs() {
+    return {
+      IA: parseFloat(document.getElementById('IA').value),
+      IB: parseFloat(document.getElementById('IB').value),
+      IC: parseFloat(document.getElementById('IC').value),
+      VA: parseFloat(document.getElementById('VA').value),
+      VB: parseFloat(document.getElementById('VB').value),
+      VC: parseFloat(document.getElementById('VC').value)
+    };
+  }
+
+  async function predictDefect() {
+    const inputs = getInputs();
+    try {
+      const response = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inputs)
+      });
+      const data = await response.json();
+      if (data.error) {
+        document.getElementById('defectPredictionResult').innerText = "Erreur : " + data.error;
+      } else {
+        document.getElementById('defectPredictionResult').innerText =
+          `Prédiction défaut : ${data.prediction} (${data.label}) - Confiance modèle : ${data.confidence}%`;
+      }
+    } catch (error) {
+      console.error(error);
+      document.getElementById('defectPredictionResult').innerText =
+        "Erreur lors de la prédiction. Vérifiez le serveur.";
+    }
+  }
+
+  async function classifyDefect() {
+    const inputs = getInputs();
+    try {
+      const response = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(inputs)
+      });
+      const data = await response.json();
+      if (data.error) {
+        document.getElementById('defectPredictionResult').innerText = "Erreur : " + data.error;
+      } else {
+        document.getElementById('defectPredictionResult').innerText =
+          `Type de défaut : ${data.label} (Code : ${data.prediction}) - Confiance modèle : ${data.confidence}%`;
+      }
+    } catch (error) {
+      console.error(error);
+      document.getElementById('defectPredictionResult').innerText =
+        "Erreur lors de la classification. Vérifiez le serveur.";
+    }
+  }
+</script>
+
+</body>
+</html>
